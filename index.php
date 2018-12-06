@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Testing></title>
+        <title>Testing</title>
     </head>
     <body>
         <?php 
@@ -11,19 +11,18 @@
 
                 session_start();
                 if(isset($_SESSION["login"])) {
-                    echo "You have logged in!";
-                    return;
+                    header("Location:home.php");
                 }
                 
                 if(isset($_POST["id"])) {
                     $stmt = $dbh->prepare("select count(*) from Student where id = :id and password = :password");
                     $stmt->execute(array(':id' => $_POST['id'], ':password' => $_POST['password']));
-		    $row = $stmt->fetchAll();
+		            $row = $stmt->fetchAll();
 		    
-		    if($row[0][0] == "1") {
+		            if($row[0][0] == "1") {
                         $_SESSION['login'] = true;
-                        echo "You have logged in now!";
-                        return;
+                        $_SESSION['id'] = $_POST['id'];
+                        header("Location:home.php");
                     }
                     else {
                         echo "Incorrect username or password.";
