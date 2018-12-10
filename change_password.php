@@ -1,5 +1,4 @@
 <html>
-    <head></head>
     <header>
         <ul>
             <li><a href="https://classdb.it.mtu.edu/~asrospie/final/home.php">Home</a></li>
