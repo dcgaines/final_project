@@ -15,14 +15,14 @@
                 session_start();
                 
                 if(isset($_POST["id"])) {
-                    $stmt = $dbh->prepare("select count(*) from Student where id = :id and password = :password");
+                    $stmt = $dbh->prepare("select count(*) from Student where id = :id and password = encrypt(:password, 'database')");
                     $stmt->execute(array(':id' => $_POST['id'], ':password' => $_POST['old_password']));
 		            $row = $stmt->fetchAll();
 		    
 		            if($row[0][0] == "1") {
                         if(!($_POST['password'] == "")) {
-                            if($_POST['password'] == $_POST['con_password']) {
-                                $stmt = $dbh->prepare("update Student set password = :password where id=:id");
+                            if(strcmp($_POST['password'], $_POST['con_password']) == 0) {
+                                $stmt = $dbh->prepare("update Student set password = encrypt(:password, 'database') where id=:id");
                                 $stmt->execute(array(':id' => $_POST['id'], ':password' => $_POST['password']));
                                 echo '<script>alert("Password Changed");</script>';
                                 header("Location:home.php");
