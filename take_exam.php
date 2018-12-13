@@ -49,9 +49,10 @@
                                     echo "</TR>";
                                 }
                                 $count = $count + 1;
-                                echo "</table";
+                                echo "</table>";
                                 echo "</br>";
                             }
+                            echo "<input type='submit' value='Submit Exam'/>";
                             echo "</form>";
 
                         } catch (PDOException $e) {
