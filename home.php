@@ -33,12 +33,12 @@
                             echo "<table border='1'";
                             echo "<TR> <TH> Name </TH> <TH> Total Points </TH> <TH> Time Created </TH> </TR>";
                             foreach ($dbh->query("select exam_name, total_points, time_created from Exam") as $row) {
-                                echo '<form method="post" action="">';
+                                echo '<form method="post" action="take_exam.php">';
                                 echo "<TR>";
                                 echo "<TD>".$row[0]."</TD><TD>".$row[1]."</TD><TD>".$row[2]."</TD>";
                                 echo '<TD> <input type="submit" name="take" value="Take"> </TD>';
                                 echo "</TR>";
-                                echo '<input type="hidden" exam_name="exam_name" value="'.$row[0].'">';
+                                echo '<input type="hidden" name="exam_name" value="'.$row[0].'">';
                                 echo '</form>';
                             }
                             echo "</table>";
