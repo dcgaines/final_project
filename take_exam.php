@@ -15,9 +15,9 @@
             <div id="header">
                 <ul>
                     <li><a>Exam Day</a></li>
-                    <li><a href="https://classdb.it.mtu.edu/~asrospie/final/home.php">Home</a></li>
-                    <li><a href="https://classdb.it.mtu.edu/~asrospie/final/change_password.php">Change Password</a></li>
-                    <li><a href="https://classdb.it.mtu.edu/~asrospie/final/diff_user.php">Different User</a></li>
+                    <li><a href="home.php">Home</a></li>
+                    <li><a href="change_password.php">Change Password</a></li>
+                    <li><a href="diff_user.php">Different User</a></li>
                     <li><a>User: <?php echo $_SESSION['id']; ?></a></li>
                 </ul>
             </div>
