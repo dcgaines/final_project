@@ -9,6 +9,24 @@ body {
     margin-right: auto;
 }
 
+table {
+    border: 1px solid black;
+}
+
+th {
+    text-align: center;
+    background-color: #8a1538;
+    color: white;
+}
+
+th, td {
+    padding: 10px;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
 #header {
     background-color: #8a1538;
     color: black;
