@@ -15,7 +15,7 @@
                 }
                 
                 if(isset($_POST["id"])) {
-                    $stmt = $dbh->prepare("select count(*) from Student where id = :id and password = :password");
+                    $stmt = $dbh->prepare("select count(*) from Student where id = :id and password = encrypt(:password, 'database')");
                     $stmt->execute(array(':id' => $_POST['id'], ':password' => $_POST['password']));
 		            $row = $stmt->fetchAll();
 		    
