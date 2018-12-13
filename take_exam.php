@@ -36,27 +36,28 @@
                             echo "<h1>".$exam_name."</h1>";
 
                             $q = "select q_number, q_text, points from Question where exam_name='".$exam_name."'";
-                            $count = 1;
-                            echo "<form>";
+                            $_POST['count'] = 1;
+                            echo "<form action='grade.php' method='post'>";
                             foreach ($dbh->query($q) as $row) {
                                 echo "<table border='1'>";
                                 echo "<TR> <TH> ".$row[0]." </TH><TH> ".$row[1]." </TH><TH> ".$row[2]." Points </TH></TR>";
-                                $r = "select identifier, c_text from Choices where q_number=".$count." and exam_name = '".$exam_name."'";
+                                $r = "select identifier, c_text from Choices where q_number=".$_POST['count']." and exam_name = '".$exam_name."'";
                                 foreach ($dbh->query($r) as $choice) {
                                     echo "<TR>";
-                                    echo '<TD><input type="radio" name='.$count.' value="'.$choice[0].'"> '.$choice[0]. '</TD>';
+                                    echo '<TD><input type="radio" name='.$_POST['count'].' value="'.$choice[0].'"> '.$choice[0]. '</TD>';
                                     echo '<TD colspan="2"> '.$choice[1].' </TD>';
                                     echo "</TR>";
                                 }
-                                $count = $count + 1;
+                                $_POST['count'] = $_POST['count'] + 1;
                                 echo "</table>";
                                 echo "</br>";
                             }
+			    echo "<input type='hidden' name='exam_name' value='".$exam_name."' />";
                             echo "<input type='submit' value='Submit Exam'/>";
                             echo "</form>";
 
                         } catch (PDOException $e) {
-                            print "Error!".$e->getMessage()."<br/";
+                            print "Error!".$e->getMessage()."<br/>";
                             die();
                         }
                     ?>
