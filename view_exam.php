@@ -34,25 +34,49 @@
                             $exam_name = $_POST['exam_name'];
 
                             echo "<h1>".$exam_name."</h1>";
-
+                            
                             $q = "select q_number, q_text, points from Question where exam_name='".$exam_name."'";
                             $count = 1;
                             echo "<form>";
                             foreach ($dbh->query($q) as $row) {
+                                $cor_ans = $dbh->prepare("select identifier from CorrectAnswer where exam_name='".$exam_name."' and q_number=".(int)$row[0]."");
+                                $s_answer = $dbh->prepare("select identifier, points from Answered where exam_name='".$exam_name."' and id='".$username."' and q_number=".(int)$row[0]."");
+                                
+                                $cor_ans->execute();
+                                $cor_ans_row = $cor_ans->fetchAll();
+                                $s_answer->execute();
+                                $s_answer_row = $s_answer->fetchAll();
+
+                                echo "<h3> Question #".$count."";
                                 echo "<table border='1'>";
-                                echo "<TR> <TH> ".$row[0]." </TH><TH> ".$row[1]." </TH><TH> ".$row[2]." Points </TH></TR>";
+                                echo "<TR> <TH>Correct Answer</TH> <TH>Student Answer</TH> <TH> Choices </TH><TH> ".$row[1]." </TH> <TH> ".$s_answer_row[0][1]."/</TH> <TH> ".$row[2]." Points </TH></TR>";
                                 $r = "select identifier, c_text from Choices where q_number=".$count." and exam_name = '".$exam_name."'";
                                 foreach ($dbh->query($r) as $choice) {
                                     echo "<TR>";
-                                    echo '<TD><input type="radio" name='.$count.' value="'.$choice[0].'"> '.$choice[0]. '</TD>';
-                                    echo '<TD colspan="2"> '.$choice[1].' </TD>';
+                                    if (strcmp($cor_ans_row[0][0], $choice[0]) == 0)
+                                    {
+                                        echo '<TD> '.$cor_ans_row[0][0].' </TD>';
+                                    }
+                                    else
+                                    {
+                                        echo '<TD> </TD>';
+                                    }
+                                    if (strcmp($s_answer_row[0][0], $choice[0]) == 0)
+                                    {
+                                        echo '<TD> '.$s_answer_row[0][0].' </TD>';
+                                    }
+                                    else
+                                    {
+                                        echo '<TD> </TD>';
+                                    }
+                                    echo '<TD> '.$choice[0].' </TD>';
+                                    echo '<TD colspan="3"> '.$choice[1].' </TD>';
                                     echo "</TR>";
                                 }
                                 $count = $count + 1;
                                 echo "</table>";
                                 echo "</br>";
                             }
-                            echo "<input type='submit' value='Submit Exam'/>";
                             echo "</form>";
 
                         } catch (PDOException $e) {
